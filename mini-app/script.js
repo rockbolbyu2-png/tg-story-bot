@@ -1,16 +1,22 @@
-// Простая версия без Telegram WebApp (для отладки)
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
 let currentScene = "start";
 let storyId = "example-story";
 
 async function loadScene(sceneId) {
     try {
-        const response = await fetch(`/stories/${storyId}.json`);
-        if (!response.ok) throw new Error("Файл не найден");
+        const res = await fetch(`/stories/${storyId}.json`);
+        if (!res.ok) throw new Error("Файл не найден");
 
-        const story = await response.json();
-        const scene = story.scenes[sceneId];
+        const storyData = await res.json();
+        const scene = storyData.scenes[sceneId];
 
-        document.getElementById('story-title').textContent = story.title;
+        if (!scene) throw new Error("Сцена не найдена");
+
+        // Обновляем интерфейс
+        document.getElementById('story-title').textContent = storyData.title || "Тёмный Лес";
         document.getElementById('scene-image').src = scene.image;
         document.getElementById('scene-text').innerHTML = scene.text;
 
@@ -21,18 +27,32 @@ async function loadScene(sceneId) {
             const btn = document.createElement('button');
             btn.textContent = choice.text;
             btn.onclick = () => {
-                if (choice.next) loadScene(choice.next);
-                else alert(choice.end || "Конец истории");
+                if (choice.next) {
+                    currentScene = choice.next;
+                    loadScene(choice.next);
+                } else if (choice.end) {
+                    tg.showAlert(choice.end);
+                    // Можно добавить кнопку "Начать заново"
+                    const restartBtn = document.createElement('button');
+                    restartBtn.textContent = "🔄 Начать заново";
+                    restartBtn.onclick = () => loadScene("start");
+                    choicesDiv.appendChild(restartBtn);
+                }
             };
             choicesDiv.appendChild(btn);
         });
 
-    } catch (e) {
-        document.getElementById('scene-text').innerHTML = 
-            `<b>Ошибка:</b><br>Не могу загрузить историю.<br><br>Проверь файл stories/example-story.json`;
-        console.error(e);
+    } catch (error) {
+        console.error(error);
+        document.getElementById('scene-text').innerHTML = `
+            <b>Ошибка:</b><br>
+            Не удалось загрузить сцену.<br><br>
+            <small>${error.message}</small>
+        `;
     }
 }
 
 // Запуск
-loadScene(currentScene);
+window.onload = () => {
+    loadScene(currentScene);
+};
