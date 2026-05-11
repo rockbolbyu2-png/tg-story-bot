@@ -1,31 +1,22 @@
-// Универсальная версия для тестирования и Telegram
-let tg;
-if (window.Telegram && window.Telegram.WebApp) {
-    tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-} else {
-    console.log("⚠️ Запущено в обычном браузере (тестовый режим)");
-    tg = {
-        showAlert: (msg) => alert(msg),
-        ready: () => {},
-        expand: () => {}
-    };
-}
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
 
-let currentScene = "start";
 let storyId = "example-story";
+let currentScene = "start";
 
 async function loadScene(sceneId) {
     try {
         const res = await fetch(`/stories/${storyId}.json`);
         
-        if (!res.ok) throw new Error("Файл истории не найден");
+        if (!res.ok) {
+            throw new Error("Файл истории не найден");
+        }
 
         const storyData = await res.json();
         const scene = storyData.scenes[sceneId];
 
-        document.getElementById('story-title').textContent = storyData.title || "История";
+        document.getElementById('story-title').textContent = storyData.title || "Тёмный Лес";
         document.getElementById('scene-image').src = scene.image;
         document.getElementById('scene-text').innerHTML = scene.text;
 
@@ -46,12 +37,12 @@ async function loadScene(sceneId) {
             choicesDiv.appendChild(btn);
         });
 
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         document.getElementById('scene-text').innerHTML = `
-            <b>Ошибка:</b><br>
-            Не удалось загрузить историю<br><br>
-            <small>${error.message}</small>
+            <b>Ошибка загрузки</b><br><br>
+            Не удалось загрузить историю.<br>
+            Проверьте наличие файла stories/example-story.json
         `;
     }
 }
