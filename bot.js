@@ -9,38 +9,39 @@ const bot = new TelegramBot(token, { polling: true });
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// === ТВОЯ ССЫЛКА С RENDER (измени, если нужно) ===
+// Твоя ссылка с Render
 const WEB_APP_URL = "https://tg-story-bot-je6c.onrender.com";
 
 app.use(express.static(path.join(__dirname, 'mini-app')));
 app.use('/stories', express.static(path.join(__dirname, 'stories')));
 
-console.log(`🚀 Бот запущен`);
-console.log(`🌐 Mini App URL: ${WEB_APP_URL}`);
+console.log(`✅ Бот успешно запущен`);
 
-// ==================== КОМАНДА /start ====================
+// ==================== ЧИСТОЕ ПРИВЕТСТВИЕ ====================
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
 
     bot.sendMessage(chatId, 
-`👋 *Привет! Добро пожаловать в Интерактивные Истории!*
+`👋 Привет!
 
-Здесь каждый твой выбор влияет на развитие сюжета и концовку.
+Добро пожаловать в **Интерактивные Истории**.
 
-Выбери историю для прохождения:`, 
+Каждый твой выбор влияет на сюжет и концовку.
+
+Выбери историю:`, 
     {
         parse_mode: "Markdown",
         reply_markup: {
             inline_keyboard: [
                 [
                     { 
-                        text: "🌲 1. Тёмный Лес", 
+                        text: "🌲 Тёмный Лес", 
                         web_app: { url: `${WEB_APP_URL}?story=example-story` } 
                     }
                 ],
                 [
                     { 
-                        text: "⚙ 2. В разработке...", 
+                        text: "⚙ В разработке...", 
                         callback_data: "coming_soon" 
                     }
                 ]
@@ -49,16 +50,15 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
-// Обработка кнопки "В разработке"
-bot.on('callback_query', async (query) => {
+bot.on('callback_query', (query) => {
     if (query.data === "coming_soon") {
-        await bot.answerCallbackQuery(query.id, {
-            text: "😊 Эта история пока в разработке!\n\nСкоро будет доступна.",
+        bot.answerCallbackQuery(query.id, {
+            text: "Эта история скоро будет доступна!",
             show_alert: true
         });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`🌍 Сервер запущен на порту ${PORT}`);
+    console.log(`🌍 Сервер работает на порту ${PORT}`);
 });
