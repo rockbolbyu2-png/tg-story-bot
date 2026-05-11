@@ -26,8 +26,6 @@ bot.onText(/\/start/, (msg) => {
 
 Добро пожаловать в **Интерактивные Истории**.
 
-Каждый твой выбор влияет на сюжет и концовку.
-
 Выбери историю:`, 
     {
         parse_mode: "Markdown",
@@ -36,7 +34,7 @@ bot.onText(/\/start/, (msg) => {
                 [
                     { 
                         text: "🌲 Тёмный Лес", 
-                        web_app: { url: `${WEB_APP_URL}?story=example-story` } 
+                        web_app: { url: `${WEB_APP_URL}/?story=example-story` } 
                     }
                 ],
                 [
