@@ -4,7 +4,7 @@
   "startScene": "start",
   "scenes": {
     "start": {
-      "image": "https://picsum.photos/id/1015/800/600",
+      "image": "https://i.pinimg.com/736x/ba/55/52/ba555275062d6ce5386773376212ec8d.jpg",
       "text": "Вы стоите на краю тёмного леса. Солнце уже почти зашло.",
       "choices": [
         { "text": "Пойти вглубь леса", "next": "forest_deep" },
@@ -12,7 +12,7 @@
       ]
     },
     "forest_deep": {
-      "image": "https://picsum.photos/id/133/800/600",
+      "image": "https://img.freepik.com/premium-photo/silhouette-trees-forest-against-sky-night_1048944-24928338.jpg?semt=ais_hybrid&w=740",
       "text": "В лесу очень темно. Вы слышите странный шорох...",
       "choices": [
         { "text": "Продолжить идти", "next": "end_good" },
@@ -20,7 +20,7 @@
       ]
     },
     "path_right": {
-      "image": "https://picsum.photos/id/201/800/600",
+      "image": "https://i.ytimg.com/vi/CrDeWjUocKw/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AHOCYAC0AWKAgwIABABGEkgWChlMA8=&rs=AOn4CLC4WyG60jQm_0A12AJhPE7TaqpkzQ",
       "text": "Тропинка вывела вас к старой заброшенной хижине.",
       "choices": [
         { "text": "Зайти внутрь", "next": "end_hut" },
@@ -28,14 +28,14 @@
       ]
     },
     "end_good": {
-      "image": "https://picsum.photos/id/870/800/600",
+      "image": "https://i.pinimg.com/originals/2d/ae/44/2dae44bb0627cfc279e449960b727e5e.jpg",
       "text": "Вы нашли красивую поляну с древним храмом! Победа ✨",
       "choices": [
         { "text": "Начать заново", "next": "start" }
       ]
     },
     "end_hut": {
-      "image": "https://picsum.photos/id/180/800/600",
+      "image": "https://img.freepik.com/premium-photo/treasure-chest-with-gold-spilling-out-piles_178728-9545.jpg?semt=ais_hybrid",
       "text": "В хижине было полно сокровищ... но и опасностей. Вы еле выбрались живым.",
       "choices": [
         { "text": "Начать заново", "next": "start" }
