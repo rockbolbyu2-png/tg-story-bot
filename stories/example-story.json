@@ -1,0 +1,45 @@
+{
+  "title": "Тёмный Лес",
+  "description": "Классическая история",
+  "startScene": "start",
+  "scenes": {
+    "start": {
+      "image": "https://picsum.photos/id/1015/800/600",
+      "text": "Вы стоите на краю тёмного леса. Солнце уже почти зашло.",
+      "choices": [
+        { "text": "Пойти вглубь леса", "next": "forest_deep" },
+        { "text": "Пойти по тропинке вправо", "next": "path_right" }
+      ]
+    },
+    "forest_deep": {
+      "image": "https://picsum.photos/id/133/800/600",
+      "text": "В лесу очень темно. Вы слышите странный шорох...",
+      "choices": [
+        { "text": "Продолжить идти", "next": "end_good" },
+        { "text": "Вернуться назад", "next": "start" }
+      ]
+    },
+    "path_right": {
+      "image": "https://picsum.photos/id/201/800/600",
+      "text": "Тропинка вывела вас к старой заброшенной хижине.",
+      "choices": [
+        { "text": "Зайти внутрь", "next": "end_hut" },
+        { "text": "Пройти мимо", "next": "end_good" }
+      ]
+    },
+    "end_good": {
+      "image": "https://picsum.photos/id/870/800/600",
+      "text": "Вы нашли красивую поляну с древним храмом! Победа ✨",
+      "choices": [
+        { "text": "Начать заново", "next": "start" }
+      ]
+    },
+    "end_hut": {
+      "image": "https://picsum.photos/id/180/800/600",
+      "text": "В хижине было полно сокровищ... но и опасностей. Вы еле выбрались живым.",
+      "choices": [
+        { "text": "Начать заново", "next": "start" }
+      ]
+    }
+  }
+}
