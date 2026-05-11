@@ -9,22 +9,25 @@ const bot = new TelegramBot(token, { polling: true });
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Твоя ссылка с Render
+// ←←←←←←←←←← ИЗМЕНИ НА СВОЮ ССЫЛКУ С RENDER ←←←←←←←←←←
 const WEB_APP_URL = "https://tg-story-bot-je6c.onrender.com";
 
 app.use(express.static(path.join(__dirname, 'mini-app')));
 app.use('/stories', express.static(path.join(__dirname, 'stories')));
 
-console.log(`✅ Бот успешно запущен`);
+console.log(`✅ Бот запущен`);
+console.log(`🌐 Mini App: ${WEB_APP_URL}`);
 
-// ==================== ЧИСТОЕ ПРИВЕТСТВИЕ ====================
+// ==================== /start ====================
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
 
     bot.sendMessage(chatId, 
 `👋 Привет!
 
-Добро пожаловать в **Интерактивные Истории**.
+Добро пожаловать в **Интерактивные Истории**!
+
+Здесь каждый твой выбор влияет на сюжет и концовку.
 
 Выбери историю:`, 
     {
@@ -34,7 +37,7 @@ bot.onText(/\/start/, (msg) => {
                 [
                     { 
                         text: "🌲 Тёмный Лес", 
-                        web_app: { url: `${WEB_APP_URL}/?story=example-story` } 
+                        web_app: { url: `${WEB_APP_URL}?story=example-story` } 
                     }
                 ],
                 [
@@ -48,10 +51,11 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
+// Обработка кнопки "В разработке"
 bot.on('callback_query', (query) => {
     if (query.data === "coming_soon") {
         bot.answerCallbackQuery(query.id, {
-            text: "Эта история скоро будет доступна!",
+            text: "😊 Эта история пока в разработке!",
             show_alert: true
         });
     }
