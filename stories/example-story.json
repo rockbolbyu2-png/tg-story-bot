@@ -20,7 +20,7 @@
       ]
     },
     "path_right": {
-      "image": "https://i.ytimg.com/vi/CrDeWjUocKw/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AHOCYAC0AWKAgwIABABGEkgWChlMA8=&rs=AOn4CLC4WyG60jQm_0A12AJhPE7TaqpkzQ",
+      "image": "https://i.ytimg.com/vi/IX4XGGFe_7s/maxresdefault.jpg",
       "text": "Тропинка вывела вас к старой заброшенной хижине.",
       "choices": [
         { "text": "Зайти внутрь", "next": "end_hut" },
