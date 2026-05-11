@@ -1,20 +1,16 @@
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
-
-let storyId = "example-story";
+// Простая версия без Telegram WebApp (для отладки)
 let currentScene = "start";
+let storyId = "example-story";
 
 async function loadScene(sceneId) {
     try {
-        const res = await fetch(`/stories/${storyId}.json`);
-        
-        if (!res.ok) throw new Error("История не найдена");
+        const response = await fetch(`/stories/${storyId}.json`);
+        if (!response.ok) throw new Error("Файл не найден");
 
-        const storyData = await res.json();
-        const scene = storyData.scenes[sceneId];
+        const story = await response.json();
+        const scene = story.scenes[sceneId];
 
-        document.getElementById('story-title').textContent = storyData.title;
+        document.getElementById('story-title').textContent = story.title;
         document.getElementById('scene-image').src = scene.image;
         document.getElementById('scene-text').innerHTML = scene.text;
 
@@ -25,25 +21,18 @@ async function loadScene(sceneId) {
             const btn = document.createElement('button');
             btn.textContent = choice.text;
             btn.onclick = () => {
-                if (choice.next) {
-                    currentScene = choice.next;
-                    loadScene(choice.next);
-                } else {
-                    tg.showAlert(choice.end || "Конец истории");
-                }
+                if (choice.next) loadScene(choice.next);
+                else alert(choice.end || "Конец истории");
             };
             choicesDiv.appendChild(btn);
         });
 
-    } catch (error) {
-        document.getElementById('scene-text').innerHTML = `
-            <b>Ошибка загрузки</b><br><br>
-            Не удалось загрузить историю "Тёмный Лес"<br>
-            <small>${error.message}</small>
-        `;
-        console.error(error);
+    } catch (e) {
+        document.getElementById('scene-text').innerHTML = 
+            `<b>Ошибка:</b><br>Не могу загрузить историю.<br><br>Проверь файл stories/example-story.json`;
+        console.error(e);
     }
 }
 
-// Автозапуск
-window.onload = () => loadScene(currentScene);
+// Запуск
+loadScene(currentScene);
