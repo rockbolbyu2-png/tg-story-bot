@@ -2,57 +2,20 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-let currentScene = "start";
-let storyId = "example-story";
-
-async function loadScene(sceneId) {
+async function testStory() {
     try {
-        const res = await fetch(`/stories/${storyId}.json`);
-        if (!res.ok) throw new Error("Файл не найден");
-
-        const storyData = await res.json();
-        const scene = storyData.scenes[sceneId];
-
-        if (!scene) throw new Error("Сцена не найдена");
-
-        // Обновляем интерфейс
-        document.getElementById('story-title').textContent = storyData.title || "Тёмный Лес";
-        document.getElementById('scene-image').src = scene.image;
-        document.getElementById('scene-text').innerHTML = scene.text;
-
-        const choicesDiv = document.getElementById('choices');
-        choicesDiv.innerHTML = '';
-
-        scene.choices.forEach(choice => {
-            const btn = document.createElement('button');
-            btn.textContent = choice.text;
-            btn.onclick = () => {
-                if (choice.next) {
-                    currentScene = choice.next;
-                    loadScene(choice.next);
-                } else if (choice.end) {
-                    tg.showAlert(choice.end);
-                    // Можно добавить кнопку "Начать заново"
-                    const restartBtn = document.createElement('button');
-                    restartBtn.textContent = "🔄 Начать заново";
-                    restartBtn.onclick = () => loadScene("start");
-                    choicesDiv.appendChild(restartBtn);
-                }
-            };
-            choicesDiv.appendChild(btn);
-        });
-
-    } catch (error) {
-        console.error(error);
+        const res = await fetch('/stories/example-story.json');
+        const text = await res.text();
+        
         document.getElementById('scene-text').innerHTML = `
-            <b>Ошибка:</b><br>
-            Не удалось загрузить сцену.<br><br>
-            <small>${error.message}</small>
+            <b>Статус:</b> ${res.status}<br>
+            <b>Ответ сервера:</b><br>
+            <pre>${text.substring(0, 500)}...</pre>
         `;
+    } catch (e) {
+        document.getElementById('scene-text').innerHTML = `Ошибка: ${e.message}`;
     }
 }
 
-// Запуск
-window.onload = () => {
-    loadScene(currentScene);
-};
+// Запуск теста
+window.onload = testStory;
