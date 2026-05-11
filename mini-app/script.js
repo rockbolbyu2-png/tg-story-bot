@@ -9,14 +9,12 @@ async function loadScene(sceneId) {
     try {
         const res = await fetch(`/stories/${storyId}.json`);
         
-        if (!res.ok) {
-            throw new Error("Файл истории не найден");
-        }
+        if (!res.ok) throw new Error("История не найдена");
 
         const storyData = await res.json();
         const scene = storyData.scenes[sceneId];
 
-        document.getElementById('story-title').textContent = storyData.title || "Тёмный Лес";
+        document.getElementById('story-title').textContent = storyData.title;
         document.getElementById('scene-image').src = scene.image;
         document.getElementById('scene-text').innerHTML = scene.text;
 
@@ -30,24 +28,22 @@ async function loadScene(sceneId) {
                 if (choice.next) {
                     currentScene = choice.next;
                     loadScene(choice.next);
-                } else if (choice.end) {
-                    tg.showAlert(choice.end);
+                } else {
+                    tg.showAlert(choice.end || "Конец истории");
                 }
             };
             choicesDiv.appendChild(btn);
         });
 
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
         document.getElementById('scene-text').innerHTML = `
             <b>Ошибка загрузки</b><br><br>
-            Не удалось загрузить историю.<br>
-            Проверьте наличие файла stories/example-story.json
+            Не удалось загрузить историю "Тёмный Лес"<br>
+            <small>${error.message}</small>
         `;
+        console.error(error);
     }
 }
 
-// Запуск
-window.onload = () => {
-    loadScene(currentScene);
-};
+// Автозапуск
+window.onload = () => loadScene(currentScene);
